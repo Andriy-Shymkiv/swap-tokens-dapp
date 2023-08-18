@@ -21,7 +21,7 @@ export const switchChain = async (connector: Connector, chainId: ChainId): Promi
       chainId: Number(chainId),
       chainName: CHAINS[chainId].name,
       rpcUrls: URLS[chainId],
-      nativeCurrency: CHAINS[chainId].nativeCurrency,
+      nativeCurrency: CHAINS[chainId].nativeToken,
       blockExplorerUrls: [CHAINS[chainId].blockExplorerUrls],
     });
   }

@@ -1,4 +1,4 @@
-import { AddEthereumChainParameter, Connector } from '@web3-react/types';
+import { Connector } from '@web3-react/types';
 
 // wallet
 
@@ -29,7 +29,7 @@ export enum ChainId {
 export interface ChainInformationConfig {
   rpcUrls: string[];
   name: string;
-  nativeCurrency: AddEthereumChainParameter['nativeCurrency'];
+  nativeToken: Token;
   blockExplorerUrls: string;
 }
 
