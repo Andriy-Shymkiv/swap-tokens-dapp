@@ -13,8 +13,9 @@ const StyledWidgetWrapper = styled(Card, {
 })(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  height: 400,
-  width: 400,
+  // TODO: make responsive
+  height: 440,
+  width: 440,
   padding: theme.spacing(10),
   boxShadow: theme.shadows[8],
   position: 'relative',

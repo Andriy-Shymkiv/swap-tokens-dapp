@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { QueryKey, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useWeb3React } from '@web3-react/core';
 import { useAppSelector } from '~/store/hooks';
 import { Token } from '~/types/tokens';
@@ -8,7 +8,7 @@ import { getMultipleBalances } from '~/utils/web3Utils';
 import { ChainId } from '~/walletActions/types';
 import { useTokenLists } from './useTokenLists';
 
-export const constructTokensBalancesCacheKey = (chainId: ChainId, account: string): any[] => [
+export const constructTokensBalancesCacheKey = (chainId: ChainId, account: string): QueryKey => [
   'tokensBalances',
   chainId,
   account,

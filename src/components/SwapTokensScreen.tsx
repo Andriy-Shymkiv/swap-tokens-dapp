@@ -4,10 +4,12 @@ import { useCallback } from 'react';
 import { getEllipsisString } from '~/helpers/utils';
 import { AppScreen, resetState, setAppScreen, setSelectedWallet } from '~/store/appSlice';
 import { useAppDispatch } from '~/store/hooks';
-import { AssetInput, AssetInputType } from './common/AssetInput';
+import { AssetInput, AssetInputType } from './common/AssetInput/AssetInput';
 import { FlipTokensButton } from './common/FlipTokensButton';
 import { PrimaryButton } from './common/PrimaryButton';
 import { SelectChain } from './SelectChain';
+import { useSwapCondition } from '~/hooks/useSwapCondition';
+import { useRequestApprove } from '~/hooks/useRequestApprove';
 
 const StyledDisconnectButton = styled(Button, {
   name: 'StyledDisconnectButton',
@@ -19,6 +21,8 @@ const StyledDisconnectButton = styled(Button, {
 export const SwapTokensScreen: React.FC = (): JSX.Element => {
   const { account, connector } = useWeb3React();
   const dispatch = useAppDispatch();
+  const { isEnoughBalance, isEnoughAllowance } = useSwapCondition();
+  const { mutate: requestApprove } = useRequestApprove();
 
   const handleDisconnect = useCallback(() => {
     if (connector.deactivate) connector.deactivate();
@@ -49,7 +53,14 @@ export const SwapTokensScreen: React.FC = (): JSX.Element => {
         <AssetInput type={AssetInputType.PAY} />
         <FlipTokensButton />
         <AssetInput type={AssetInputType.RECEIVE} />
-        <PrimaryButton fullWidth>{'Swap Tokens'}</PrimaryButton>
+
+        <PrimaryButton
+          fullWidth
+          disabled={!isEnoughBalance}
+          onClick={() => (!isEnoughAllowance ? requestApprove() : Promise.resolve())}
+        >
+          {!isEnoughBalance ? 'insufficient balance' : !isEnoughAllowance ? 'unlock' : 'Swap'}
+        </PrimaryButton>
       </Box>
     </>
   );

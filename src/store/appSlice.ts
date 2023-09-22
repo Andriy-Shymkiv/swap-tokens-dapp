@@ -24,8 +24,8 @@ const initialState: AppState = {
   selectedChainId: ChainId.MAINNET,
   selectedWallet: undefined,
   screen: AppScreen.INITIAL,
-  youPay: { amount: '', token: CHAINS[ChainId.MAINNET].nativeToken },
-  youReceive: { amount: '', token: USDC_TOKEN[ChainId.MAINNET] },
+  youPay: { amount: '0', token: CHAINS[ChainId.MAINNET].nativeToken },
+  youReceive: { amount: '0', token: USDC_TOKEN[ChainId.MAINNET] },
 };
 
 export const appSlice = createSlice({
@@ -64,6 +64,18 @@ export const appSlice = createSlice({
         state.youReceive = { amount: state.youReceive.amount, token: payload };
       }
     },
+    setYouPayTokenAmount: (state: AppState, { payload }: { payload: string }) => {
+      state.youPay = {
+        ...state.youPay,
+        amount: payload,
+      };
+    },
+    setYouReceiveTokenAmount: (state: AppState, { payload }: { payload: string }) => {
+      state.youReceive = {
+        ...state.youReceive,
+        amount: payload,
+      };
+    },
     flipTokens: (state: AppState) => {
       const oldYouPay = state.youPay;
       state.youPay = { amount: state.youReceive.amount, token: state.youReceive.token };
@@ -79,6 +91,8 @@ export const {
   setAppScreen,
   setYouPayToken,
   setYouReceiveToken,
+  setYouPayTokenAmount,
+  setYouReceiveTokenAmount,
   flipTokens,
   resetState,
 } = appSlice.actions;

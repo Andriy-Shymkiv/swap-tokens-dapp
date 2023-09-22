@@ -134,4 +134,4 @@ const rpcMap = Object.keys(CHAINS).reduce<Record<string, string>>((acc, chain) =
   return acc;
 }, {});
 
-export const { getMultipleBalances, getMultipleAllowances } = web3Utils(rpcMap);
+export const { getMultipleBalances, getMultipleAllowances, requestApprove } = web3Utils(rpcMap);

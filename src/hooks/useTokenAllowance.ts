@@ -1,4 +1,4 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
+import { QueryKey, useQuery, UseQueryResult } from '@tanstack/react-query';
 import { useWeb3React } from '@web3-react/core';
 import { useAppSelector } from '~/store/hooks';
 import { getMultipleAllowances } from '~/utils/web3Utils';
@@ -7,7 +7,7 @@ import { ChainId, Token } from '~/walletActions/types';
 import { useTokenLists } from './useTokenLists';
 import { MulticallResponse } from '~/types/utils';
 
-export const constructTokenAllowancesCacheKey = (chainId: ChainId): any[] => ['tokensAllowances', chainId];
+export const constructTokenAllowancesCacheKey = (chainId: ChainId): QueryKey => ['tokensAllowances', chainId];
 
 export const useTokenAllowances = (): UseQueryResult<Record<string, MulticallResponse | null>> => {
   const { selectedChainId } = useAppSelector(({ app }) => app);
@@ -20,7 +20,7 @@ export const useTokenAllowances = (): UseQueryResult<Record<string, MulticallRes
     constructTokenAllowancesCacheKey(selectedChainId),
     () => getMultipleAllowances(account ?? '', selectedChainId, tokens, SWAP_SPENDER),
     {
-      enabled: !!account?.length && !!tokens.length,
+      enabled: !!account?.length && !!tokens?.length,
       cacheTime: ONE_MINUTE,
       staleTime: ONE_MINUTE,
     },
